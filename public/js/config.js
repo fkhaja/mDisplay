@@ -22,7 +22,10 @@
       var address_text = formData.location;
       
       var geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ 'address': address_text }, function(results, status) {
+      geocoder.geocode({ 'address': address_text }, function(results, status, err) {
+        if (err) {
+          console.log(err)
+        }
         if (status == google.maps.GeocoderStatus.OK) {
           var pos = results[0].geometry.location;
           formData.lat = pos.lat();

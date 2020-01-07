@@ -29,7 +29,7 @@
 
   secondlyUpdate();
   dailyUpdate();
-  //displayAnnouncments();
+  displayAnnouncments();
 
   function displayAnnouncments() {
     helpers.asyncAnnouncements().success(function(announcments) {

@@ -56,21 +56,25 @@ h2 {
 }
 
 .a-header {
-  line-height: 120px;
-  font-size: 90px;
+  /*line-height: 8vh;*/
+  font-size: 5vh;
 }
 
 .english-header {
-  line-height: 70px;
-  font-size: 60px;
+  /*line-height: 8vh;*/
+  font-size: 6vh;
+}
+
+.header-small-text {
+  font-size: 3vh;
 }
 
 #date {
   font-family: 'Expletus Sans', cursive;
 }
 .hero-circle {
-  width: 150px;
-  height: 150px;
+  width: 12vh;
+  height: 12vh;
   margin: 0 auto;
   position: relative;
   border: 8px solid #fff;
@@ -147,6 +151,9 @@ h2 {
   margin-bottom:30px;
 }
 
+.header-bar {
+  height: 20vh;
+}
 .carousel .item {
     width: 100%; /*slider width*/
     max-height: 1080px; /*slider height*/

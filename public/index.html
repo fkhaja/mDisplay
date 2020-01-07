@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,156 +16,169 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <section class="block">
-      <div id="myCarousel" class="carousel slide">
-        <div class="carousel-inner">
-          <div class="active item main">
-            <nav class="navbar" role="navigation">
-              <div class="container-fluid head-background" style="background-color: #2CA4AB;">
+</head>
+<body scroll="no" style="overflow: hidden">
+<section class="block">
+    <!-- Header -->
+    <div class="header-bar">
+        <nav class="navbar" role="navigation">
+            <div class="container-fluid head-background" style="background-color: #2CA4AB;">
                 <div class="row">
-                  <div class="col-xs-4 img-wrapper" >
-                    <img class="logo" src="imgs/logo-icne.jpg">
-                    <h2 id="org_name" class="text-center"></h2>
-                  </div>
-                  <div class="col-xs-4 head-text text-center">
-                    <h1><span class="english-header">Prayer Times</span><br><span class="arabic a-header">أوقات الصلاة</span></h1>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="hero-circle">
-                      <div class="hero-face">
-                        <div id="hour" class="hero-hour"></div>
-                        <div id="minute" class="hero-minute"></div>
-                        <div id="second" class="hero-second"></div>
-                      </div>
+                    <div class="col-md-2 img-wrapper">
+                        <!--                    <img class="logo" src="imgs/logo-icne.jpg">-->
+                        <img class="logo" src="https://www.isdonline.org/assets/extra-images/bulding1.png">
+                        <div id="org_name" class="text-center header-small-text"></div>
                     </div>
-                    <h2 class="text-center" id="time"></h2>
-
-                  </div>
+                    <div class="col-md-8 head-text text-center">
+                        <h1><span class="english-header">Prayer Times</span><br><span
+                                class="arabic a-header">أوقات الصلاة</span></h1>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="hero-circle">
+                            <div class="hero-face">
+                                <div id="hour" class="hero-hour"></div>
+                                <div id="minute" class="hero-minute"></div>
+                                <div id="second" class="hero-second"></div>
+                            </div>
+                        </div>
+                        <h2 class="text-center header-small-text" id="time"></h2>
+                    </div>
                 </div>
-              </div>
-              <!-- /.container -->
-            </nav>
-            <!-- Page Content -->
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-xs-12 text-center">
-                  <h1 id="date"></h1>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-
-                <div class="col-sm-6 col-md-4">
-                  <div id="panel-fajr" class="panel panel-default text-center">
-                    <div class="panel-heading">
-                      <h1>Fajr - الفجر</h1>
-                    </div>
-                    <div class="panel-body" >
-                      <div>
-                        <h2 id="i_fajr"></h2>
-                        <canvas id="canvas_fajr" width="350" height="350">
-                        </canvas>
-                      </div>
-                        <h3 id="t_fajr"></h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4">
-                  <div class="panel panel-default text-center">
-                    <div class="panel-heading">
-                      <h1>Sunrise - الشروق</h1>
-                    </div>
-                    <div class="panel-body" >
-                      <div>
-                        <h2 id="t_sunrise"></h2>
-                        <canvas id="canvas_sunrise" width="350" height="350">
-                        </canvas>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4">
-                  <div id="panel-dhuhr" class="panel panel-default text-center">
-                    <div class="panel-heading">
-                      <h1>Dhuhr - الظهر</h1>
-                    </div>
-                    <div class="panel-body" >
-                      <div>
-                        <h2 id="i_dhuhr"></h2>
-                        <canvas id="canvas_dhuhr" width="350" height="350">
-                        </canvas>
-                      </div>
-                        <h3 id="t_dhuhr"></h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4">
-                  <div id="panel-asr" class="panel panel-default text-center">
-                    <div class="panel-heading">
-                      <h1>Asr - العصر</h1>
-                    </div>
-                    <div class="panel-body" >
-                      <div>
-                        <h2 id="i_asr"></h2>
-                        <canvas id="canvas_asr" width="350" height="350">
-                        </canvas>
-                      </div>
-                        <h3 id="t_asr"></h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4">
-                  <div id="panel-maghrib" class="panel panel-default text-center">
-                    <div class="panel-heading">
-                      <h1 >Maghrib - المغرب</h1>
-                    </div>
-                    <div class="panel-body" >
-                      <div>
-                        <h2 id="i_maghrib"></h2>
-                        <canvas id="canvas_maghrib" width="350" height="350">
-                        </canvas>
-                      </div>
-                        <h3 id="t_maghrib"></h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4">
-                  <div id="panel-isha" class="panel panel-default text-center">
-                    <div class="panel-heading">
-                      <h1 >Isha - العشاء</h1>
-                    </div>
-                    <div class="panel-body" >
-                      <div>
-                        <h2 id="i_isha"></h2>
-                        <canvas id="canvas_isha" width="350" height="350">
-                        </canvas>
-                      </div>
-                        <h3 id="t_isha"></h3>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
             </div>
-          </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h1 id="date"></h1>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-    <script src="js/lib/jquery.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>
-    <script src="js/lib/moment.min.js"></script>
-    <script src="js/lib/moment-hijri.js"></script>
-    <script src="js/lib/PrayTimes.js"></script>
-    <script src="js/helpers.js"></script>
-    <script src="js/clock.js"></script>
-    <script src="js/main.js"></script>
+        <hr>
+    </div>
 
-  </body>
+    <!-- Content Carousel -->
+    <div id="myCarousel" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="active item main">
+                <!-- /.container -->
+                <!-- Page Content -->
+                <div class="container-fluid">
+<!--                    <div class="row">-->
+<!--                        <div class="col-xs-12 text-center">-->
+<!--                            <h1 id="date"></h1>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <hr>-->
+                    <div class="row">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div id="panel-fajr" class="panel panel-default text-center">
+                                <div class="panel-heading">
+                                    <h1>Fajr - الفجر</h1>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        <h2 id="i_fajr"></h2>
+                                        <canvas id="canvas_fajr">
+                                        </canvas>
+                                    </div>
+                                    <h3 id="t_fajr"></h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="panel panel-default text-center">
+                                <div class="panel-heading">
+                                    <h1>Sunrise - الشروق</h1>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        <h2 id="t_sunrise"></h2>
+                                        <canvas id="canvas_sunrise" >
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div id="panel-dhuhr" class="panel panel-default text-center">
+                                <div class="panel-heading">
+                                    <h1>Dhuhr - الظهر</h1>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        <h2 id="i_dhuhr"></h2>
+                                        <canvas id="canvas_dhuhr" >
+                                        </canvas>
+                                    </div>
+                                    <h3 id="t_dhuhr"></h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div id="panel-asr" class="panel panel-default text-center">
+                                <div class="panel-heading">
+                                    <h1>Asr - العصر</h1>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        <h2 id="i_asr"></h2>
+                                        <canvas id="canvas_asr" >
+                                        </canvas>
+                                    </div>
+                                    <h3 id="t_asr"></h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div id="panel-maghrib" class="panel panel-default text-center">
+                                <div class="panel-heading">
+                                    <h1>Maghrib - المغرب</h1>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        <h2 id="i_maghrib"></h2>
+                                        <canvas id="canvas_maghrib" >
+                                        </canvas>
+                                    </div>
+                                    <h3 id="t_maghrib"></h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div id="panel-isha" class="panel panel-default text-center">
+                                <div class="panel-heading">
+                                    <h1>Isha - العشاء</h1>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        <h2 id="i_isha"></h2>
+                                        <canvas id="canvas_isha" width="350" height="350" >
+                                        </canvas>
+                                    </div>
+                                    <h3 id="t_isha"></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="js/lib/jquery.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/moment.min.js"></script>
+<script src="js/lib/moment-hijri.js"></script>
+<script src="js/lib/PrayTimes.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/clock.js"></script>
+<script src="js/main.js"></script>
+
+</body>
 </html>
