@@ -14,7 +14,7 @@ Clock.prototype = {
   init: function() {
     this._ctx.setTransform(1, 0, 0, 1, 0, 0);
     this._ctx.clearRect(0,0, this._canvas.width, this._canvas.height);
-    this._ctx.translate(this._radius, this._radius);
+    this._ctx.translate(this._canvas.width / 2, this._canvas.height / 2);
     this._radius = this._radius * .9;
     this.drawClock();
   },

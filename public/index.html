@@ -30,8 +30,8 @@
                         <div id="org_name" class="text-center header-small-text"></div>
                     </div>
                     <div class="col-md-8 head-text text-center">
-                        <h1><span class="english-header">Prayer Times</span><br><span
-                                class="arabic a-header">أوقات الصلاة</span></h1>
+                        <div><span class="english-header">Prayer Times</span><br><span
+                                class="arabic a-header">أوقات الصلاة</span></div>
                     </div>
                     <div class="col-md-2">
                         <div class="hero-circle">
@@ -41,19 +41,20 @@
                                 <div id="second" class="hero-second"></div>
                             </div>
                         </div>
-                        <h2 class="text-center header-small-text" id="time"></h2>
+                        <div class="text-center header-small-text" id="time"></div>
                     </div>
                 </div>
             </div>
-        </nav>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <h1 id="date"></h1>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h1 id="date"></h1>
+                    </div>
                 </div>
             </div>
-        </div>
-        <hr>
+            <hr>
+        </nav>
+
     </div>
 
     <!-- Content Carousel -->
@@ -71,26 +72,26 @@
 <!--                    <hr>-->
                     <div class="row">
 
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-md-4">
                             <div id="panel-fajr" class="panel panel-default text-center">
                                 <div class="panel-heading">
-                                    <h1>Fajr - الفجر</h1>
+                                    <h2>Fajr - الفجر</h2>
                                 </div>
                                 <div class="panel-body">
                                     <div>
                                         <h2 id="i_fajr"></h2>
                                         <canvas id="canvas_fajr">
                                         </canvas>
+                                        <h3 id="t_fajr"></h3>
                                     </div>
-                                    <h3 id="t_fajr"></h3>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-md-4">
                             <div class="panel panel-default text-center">
                                 <div class="panel-heading">
-                                    <h1>Sunrise - الشروق</h1>
+                                    <h2>Sunrise - الشروق</h2>
                                 </div>
                                 <div class="panel-body">
                                     <div>
@@ -98,14 +99,15 @@
                                         <canvas id="canvas_sunrise" >
                                         </canvas>
                                     </div>
+                                    <h3 style="color:white">.</h3>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-md-4">
                             <div id="panel-dhuhr" class="panel panel-default text-center">
                                 <div class="panel-heading">
-                                    <h1>Dhuhr - الظهر</h1>
+                                    <h2>Dhuhr - الظهر</h2>
                                 </div>
                                 <div class="panel-body">
                                     <div>
@@ -118,10 +120,10 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-md-4">
                             <div id="panel-asr" class="panel panel-default text-center">
                                 <div class="panel-heading">
-                                    <h1>Asr - العصر</h1>
+                                    <h2>Asr - العصر</h2>
                                 </div>
                                 <div class="panel-body">
                                     <div>
@@ -134,10 +136,10 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-md-4">
                             <div id="panel-maghrib" class="panel panel-default text-center">
                                 <div class="panel-heading">
-                                    <h1>Maghrib - المغرب</h1>
+                                    <h2>Maghrib - المغرب</h2>
                                 </div>
                                 <div class="panel-body">
                                     <div>
@@ -150,15 +152,15 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-md-4">
                             <div id="panel-isha" class="panel panel-default text-center">
                                 <div class="panel-heading">
-                                    <h1>Isha - العشاء</h1>
+                                    <h2>Isha - العشاء</h2>
                                 </div>
                                 <div class="panel-body">
                                     <div>
                                         <h2 id="i_isha"></h2>
-                                        <canvas id="canvas_isha" width="350" height="350" >
+                                        <canvas id="canvas_isha">
                                         </canvas>
                                     </div>
                                     <h3 id="t_isha"></h3>

@@ -34,7 +34,7 @@ body {
 }
 
 h1 {
-  font-size: 55px;
+  font-size: 5vh;
 }
 
 h1, h2 {
@@ -43,13 +43,14 @@ h1, h2 {
 }
 
 h2 {
-  font-size: 45px;
-  margin-top:10px;
+  font-size: 4vh;
+  margin-top:1vh;
 }
-h2 {
-  font-size: 40px;
-  margin-top:10px;
+h3 {
+  font-size: 3vh;
+  margin-top:0;
 }
+
 
 .arabic {
   font-family: 'Amiri', serif;
@@ -69,15 +70,22 @@ h2 {
   font-size: 3vh;
 }
 
+.navbar {
+  margin-bottom: 1vh;
+}
+
 #date {
   font-family: 'Expletus Sans', cursive;
+  font-size: 4vh;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
 }
 .hero-circle {
   width: 12vh;
   height: 12vh;
   margin: 0 auto;
   position: relative;
-  border: 8px solid #fff;
+  border: 0.4vh solid #fff;
   border-radius: 50%;
   box-shadow: 0 1px 8px rgba(34,34,34,0.3),inset 0 1px 8px rgba(34,34,34,0.3);
 }
@@ -93,13 +101,13 @@ h2 {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -4px 0 -4px -25%;
-  padding: 4px 0 4px 25%;
+  margin: -0.25vh 0 -0.25vh -25%;
+  padding: 0.25vh 0 0.25vh 25%;
   background: #fff;
   -webkit-transform-origin: 100% 50%;
   -ms-transform-origin: 100% 50%;
   transform-origin: 100% 50%;
-  border-radius: 4px 0 0 4px;
+  border-radius: 0.25vh 0 0 0.25vh;
 }
 
 .hero-minute {
@@ -108,13 +116,13 @@ h2 {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -40% -3px 0;
-  padding: 40% 3px 0;
+  margin: -40% -0.25vh 0;
+  padding: 40% 0.25vh 0;
   background: #fff;
   -webkit-transform-origin: 50% 100%;
   -ms-transform-origin: 50% 100%;
   transform-origin: 50% 100%;
-  border-radius: 3px 3px 0 0;
+  border-radius: 0.25vh 0.25vh 0 0;
 }
 
 .hero-second {
@@ -123,8 +131,8 @@ h2 {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -40% -1px 0 0;
-  padding: 40% 1px 0;
+  margin: -40% -0.15vh 0 0;
+  padding: 40% 0.15vh 0;
   background: #fff;
   -webkit-transform-origin: 50% 100%;
   -ms-transform-origin: 50% 100%;
@@ -134,8 +142,9 @@ h2 {
 .head-background {
   background: url("../imgs/index-bg.jpg") center center no-repeat;
   background-size: cover;
-  padding-top: 10px;
-  padding-bottom: 0;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  height: 18vh;
   color: white;
 }
 
@@ -151,15 +160,16 @@ h2 {
   margin-bottom:30px;
 }
 
-.header-bar {
-  height: 20vh;
-}
+/*.header-bar {*/
+/*  height: 20vh;*/
+/*}*/
 .carousel .item {
     width: 100%; /*slider width*/
-    max-height: 1080px; /*slider height*/
+    /*max-height: 70vh; !*slider height*!*/
 }
 .carousel .item img {
-    height: 1080px; /*img width*/
+    /*height: 1080px; !*img width*!*/
+    height: 74vh; /*img width*/
     margin: 0 auto;
 }
 /*add some makeup*/
@@ -170,8 +180,8 @@ h2 {
 }
 
 .logo {
- height:150px !important;
- border-radius:100px;
+ height:12vh !important;
+ border-radius:12vh;
 }
 
 .config-header h1 {
@@ -182,12 +192,31 @@ h2 {
   margin-bottom: 15px;
 }
 
+.panel {
+  height: 36.5vh;
+  margin-bottom: 1vh;
+}
+
+.panel-body{
+  padding: 0;
+}
 .panel-default > .panel-heading {
   color: #4d575d;
+  padding: 1vh 1vh;
 }
 
 .active > .panel-heading {
   background: #22a5ad;
   color: #ffffff;
   border-color: #22a5ad;
+}
+
+hr{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+canvas {
+  line-height: 0;
+  height: 19.5vh;
 }
