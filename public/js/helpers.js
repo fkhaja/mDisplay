@@ -151,13 +151,16 @@ var helpers = (function() {
   // Uses the generic Bootstrap types [success, danger, warning, etc]
   _helpers.alert = function(type, message) {
     $('#alert').html('' +
-      '<div class="alert alert-' + type + ' alert-dismissable">' +
+      '<div class="alert alert-' + type + ' alert-dismissible" role="alert" auto-close="2000">' +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
         '<span>' +
           message +
         '</span>' +
       '</div>');
-  }
+
+    setTimeout(function() {
+      $(".alert").alert('close');
+    }, 2000);  }
 
   // Return a HTML object that represents one row of an iqama range
   _helpers.iqama_row = function(start, end, times) {

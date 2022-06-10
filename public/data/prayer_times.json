@@ -1,0 +1,20 @@
+{
+  "iqamas": {
+    "01/01-01/31": {
+      "fajr_a": "4:20 AM",
+      "fajr_i": "4:30 AM",
+      "dhuhr_a": "1:15 PM",
+      "dhuhr_i": "1:30 PM",
+      "asr_a": "5:15 PM",
+      "asr_i": "5:30 PM",
+      "maghrib_a": "8:30 PM",
+      "maghrib_a": "8:30 PM",
+      "isha_a": "10:05 PM",
+      "isha_i": "10:15 PM",
+      "jumma1_a": "01:10 PM",
+      "jumma1_i": "1:40 PM",
+      "jumma2_a": "02:20 PM",
+      "jumma2_i": "2:50 PM"
+    }
+  }
+}

@@ -102,10 +102,10 @@ const getPrayerTimes = async () => {
     res.magrib_i = data.Maghrib
     res.isha_a = data.IshaAdhan
     res.isha_i = data.Isha
-    res.juma1_a = data.Jumma1Adhan
-    res.juma1_i = data.Jumma1
-    res.juma2_a = data.Jumma2Adhan
-    res.juma2_i = data.Jumma2
+    res.jumma1_a = data.Jumma1Adhan
+    res.jumma1_i = data.Jumma1
+    res.jumma2_a = data.Jumma2Adhan
+    res.jumma2_i = data.Jumma2
 
     return res
   });
