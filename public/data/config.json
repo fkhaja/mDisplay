@@ -3,5 +3,8 @@
   "location": "Newark, DE",
   "tz_offset": "-5",
   "lat": "39.683723",
-  "lng": "-75.749657"
+  "lng": "-75.749657",
+  "iqama_url": "https://isdonline.org/home/get_Payer_Time?month={mm}&date={dd}",
+  "prayer_time_url": "https://isdonline.org/home/get_Payer_Time",
+  "display_announcements": true
 }

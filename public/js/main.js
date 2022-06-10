@@ -29,7 +29,14 @@
 
   secondlyUpdate();
   dailyUpdate();
-  displayAnnouncments();
+
+  helpers.asyncConfig().success(function(config) {
+    $("#org_name")[0].innerHTML = config.org_name;
+    tz_offset = config.tz_offset;
+    location['lat'] = config.lat;
+    location['lng'] = config.lng;
+  });
+  // displayAnnouncments();
 
   function displayAnnouncments() {
     helpers.asyncAnnouncements().success(function(announcments) {
@@ -49,7 +56,8 @@
   }
 
   function updatePrayerTime() {
-    helpers.asyncIqamas().success(function(iqamas) {
+    // helpers.asyncIqamas().success(function(iqamas) {
+    helpers.asyncIqamasFromUrl().success(function(iqamas) {
       pray_times  = prayTimes.getTimes(new Date(), [location.lat, location.lng], tz_offset, 'auto', '12h');
       iqama_times = helpers.getIqamaRange(iqamas);
       m_p_time    = helpers.makeMoment(pray_times['maghrib']);

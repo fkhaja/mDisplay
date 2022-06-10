@@ -18,6 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.14.2",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "axios": "^0.19.2",
+    "dateformat": "^3.0.3"
   }
 }

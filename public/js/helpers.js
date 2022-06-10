@@ -24,17 +24,17 @@ var helpers = (function() {
   // pray_times --> hash of prayer times for today
   // m_i_time ----> Maghrib's iqama time (since it depends on athan time)
   _helpers.nextPrayerInfo = function(iqama_times, pray_times, m_i_time) {
-    var now      = moment(),
+    let now = moment(),
         info = {};
 
     iqama_times['maghrib'] = m_i_time.split(" ")[0];
 
-    for(var prayer in iqama_times) {
+    for(let prayer in iqama_times) {
       prayer == 'fajr' ? iqama_times[prayer] += " am" : iqama_times[prayer] += " pm";
     }
 
-    for(var prayer in iqama_times) {
-      var iqama_moment = this.makeMoment(iqama_times[prayer]),
+    for(let prayer in iqama_times) {
+      let iqama_moment = this.makeMoment(iqama_times[prayer]),
           pray_moment  = this.makeMoment(pray_times[prayer]);
 
       if (now.diff(iqama_moment) < 0) {
@@ -59,7 +59,7 @@ var helpers = (function() {
   // Finds the correct iqama date range based on today's date
   // data --> JSON file with all iqama date ranges
   _helpers.getIqamaRange = function(data) {
-    var today = moment().format("MM/DD"),
+    let today = moment().format("MM/DD"),
           key = "";
 
       for(var range in data['iqamas']) {
@@ -79,6 +79,33 @@ var helpers = (function() {
       dataType: "json"
     });
   };
+
+  // Async fetches the prayer times from config URL
+  _helpers.asyncIqamasFromUrl = function() {
+    this.asyncConfig().success(function (config) {
+      var today = new Date()
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var url = config.iqama_url.replace("{mm}",mm).replace("{dd}",dd);
+      getDataFromUrl(url, function (data) {
+        console.log(data);
+      });
+
+      $.ajax({
+        url: 'data/iqamas.json',
+        dataType: "json"
+      });
+
+    })
+    return $.ajax({
+      url: 'data/iqamas.json',
+      dataType: "json"
+    });
+  };
+
+  function getDataFromUrl(url, param2) {
+
+  }
 
   // Async call to fetch filenames from announcments folder
   _helpers.asyncAnnouncements = function() {
