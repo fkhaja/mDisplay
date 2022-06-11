@@ -35,7 +35,16 @@ app.get('/iqamas', function (req, res) {
   res.send(JSON.stringify(iqama_times));
 });
 
-app.get('/iqamas-url', async (req, res, next) => {
+app.get('/prayerTimesFromConfig', function (req, res) {
+  let file = require.reload('./public/data/prayer_times.json');
+  let sortedKeys = Object.keys(file.prayer_times).sort()
+  let sortedJson = {"prayer_times": {}}
+  sortedKeys.forEach(i => sortedJson.prayer_times[i] = file.prayer_times[i])
+
+  res.send(sortedJson);
+});
+
+app.get('/prayerTimesFromUrl', async (req, res, next) => {
   try {
     let data = await getPrayerTimes()
     res.send(data)
@@ -58,6 +67,19 @@ app.post('/config', function (req, res) {
 
 app.post('/iqama-update', function (req, res) {
   fs.writeFile("./public/data/iqamas.json", JSON.stringify(req.body, null, 2),
+      function (err) {
+        if (err) {
+          res.json(
+              {"response": {"status": "ERROR", "code": 500, "message": err}});
+        } else {
+          res.json({"response": {"status": "OK", "code": 200}});
+        }
+      });
+});
+
+app.post('/prayer-times-update', function (req, res) {
+  fs.writeFile("./public/data/prayer_times.json",
+      JSON.stringify(req.body, null, 2),
       function (err) {
         if (err) {
           res.json(
@@ -98,8 +120,8 @@ const getPrayerTimes = async () => {
     res.dhuhr_i = data.Zuhar
     res.asr_a = data.AsrAdhan
     res.asr_i = data.Asr
-    res.magrib_a = data.MaghribAdhan
-    res.magrib_i = data.Maghrib
+    res.maghrib_a = data.MaghribAdhan
+    res.maghrib_i = data.Maghrib
     res.isha_a = data.IshaAdhan
     res.isha_i = data.Isha
     res.jumma1_a = data.Jumma1Adhan

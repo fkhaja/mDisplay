@@ -162,7 +162,7 @@ function PrayTimes(method) {
 	},
 
 	timeFormat = '24h',
-	timeSuffixes = ['am', 'pm'],
+	timeSuffixes = ['AM', 'PM'],
 	invalidTime =  '-----',
 
 	numIterations = 1,

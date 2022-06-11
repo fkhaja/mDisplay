@@ -3,15 +3,17 @@
   prayTimes.setMethod('ISNA');
   // Maghrib salat time in minutes after athan
   var maghrib_buffer = 10;
-  var pray_times, iqama_times, m_p_time, m_i_time, n_pray_info;
+  var calculated_times, prayer_times, pray_times, iqama_times, m_p_time, m_i_time, n_pray_info;
   var location = {};
-  var tz_offset;
+  var tz_offset, prayer_time_url, display_announcements;
 
-  helpers.asyncConfig().success(function(config) {
+  helpers.config().success(function(config) {
     $("#org_name")[0].innerHTML = config.org_name;
     tz_offset = config.tz_offset;
     location['lat'] = config.lat;
     location['lng'] = config.lng;
+    prayer_time_url = config.prayer_time_url;
+    display_announcements = config.announcements === 'true'
   });
 
   function secondlyUpdate() {
@@ -29,63 +31,142 @@
 
   secondlyUpdate();
   dailyUpdate();
-
-  helpers.asyncConfig().success(function(config) {
-    $("#org_name")[0].innerHTML = config.org_name;
-    tz_offset = config.tz_offset;
-    location['lat'] = config.lat;
-    location['lng'] = config.lng;
-  });
-  // displayAnnouncments();
+  if (display_announcements) {
+    displayAnnouncments();
+  }
 
   function displayAnnouncments() {
     helpers.asyncAnnouncements().success(function(announcments) {
 
       for (var i in announcments) {
         var $html = '<div class="item"> <img src=imgs/slides/' + announcments[i] + ' /> </div>';
-
         $('.carousel-inner').append($html);
       }
-
     });
 
     $('.carousel').carousel({
       pause: 'none',
       interval: 7500
     });
+
+    $('.carousel').bind('slid.bs.carousel', function (e) {
+      let index = $(e.target).find(".active").index();
+      if(index != 0) {
+        $('#english-header').text("Announcements");
+        $('#arabic-header').text("الإعلانات");
+      } else {
+        $('#english-header').text("Prayer Times");
+        $('#arabic-header').text("أوقات الصلاة");
+      }
+    })
+
   }
 
   function updatePrayerTime() {
+    if (prayer_time_url) {
+      getPrayerTimesFromUrl()
+    } else {
+      getPrayerTimesFromConfig()
+    }
+
     // helpers.asyncIqamas().success(function(iqamas) {
-    helpers.asyncIqamasFromUrl().success(function(iqamas) {
-      pray_times  = prayTimes.getTimes(new Date(), [location.lat, location.lng], tz_offset, 'auto', '12h');
-      iqama_times = helpers.getIqamaRange(iqamas);
-      m_p_time    = helpers.makeMoment(pray_times['maghrib']);
+    // helpers.asyncIqamasFromUrl().success(function(iqamas) {
+    //   pray_times  = prayTimes.getTimes(new Date(), [location.lat, location.lng], tz_offset, 'auto', '12h');
+    //   iqama_times = helpers.getIqamaRange(iqamas);
+    //   m_p_time    = helpers.makeMoment(pray_times['maghrib']);
+    //   m_i_time    = m_p_time.add(maghrib_buffer, 'm').format("h:mm a");
+    //   n_pray_info = helpers.nextPrayerInfo(iqama_times, pray_times, m_i_time);
+    //
+    //   $("#fajr_a")     .text('Azan: '+pray_times['fajr']);
+    //   $("#t_sunrise")  .text(pray_times['sunrise']);
+    //   $("#dhuhr_a")    .text('Azan: '+pray_times['dhuhr']);
+    //   $("#asr_a")      .text('Azan: '+pray_times['asr']);
+    //   $("#maghrib_a")  .text('Azan: '+pray_times['maghrib']);
+    //   $("#isha_a")     .text('Azan: '+pray_times['isha']);
+    //
+    //   $("#fajr_i")     .text('Iqama: '+iqama_times['fajr']);
+    //   $("#dhuhr_i")    .text('Iqama: '+iqama_times['dhuhr']);
+    //   $("#asr_i")      .text('Iqama: '+iqama_times['asr']);
+    //   $("#maghrib_i")      .text('Iqama: '+iqama_times['maghrib']);
+    //   $("#isha_i")     .text('Iqama: '+iqama_times['isha']);
+    //
+    //   // $("#maghrib_i")  .text('Iqama: '+m_i_time);
+    //
+    //   renderPrayerTimeClocks();
+    // });
+
+  }
+
+  function getAutoPrayerTimes() {
+    pray_times  = prayTimes.getTimes(new Date(), [location.lat, location.lng], tz_offset, 'auto', '12h');
+    return pray_times
+  }
+
+  function getPrayerTimesFromUrl() {
+    helpers.asyncPrayerTimesFromUrl().success(function(res) {
+      calculated_times  = prayTimes.getTimes(new Date(), [location.lat, location.lng], tz_offset, 'auto', '12h');
+      prayer_times = res;
+      m_p_time    = helpers.makeMoment(calculated_times['maghrib']);
       m_i_time    = m_p_time.add(maghrib_buffer, 'm').format("h:mm a");
-      n_pray_info = helpers.nextPrayerInfo(iqama_times, pray_times, m_i_time);
+      n_pray_info = helpers.nextPrayerInfo(calculated_times, prayer_times, m_i_time);
 
-      $("#t_fajr")     .text('Azan: '+pray_times['fajr']);
-      $("#t_sunrise")  .text(pray_times['sunrise']);
-      $("#t_dhuhr")    .text('Azan: '+pray_times['dhuhr']);
-      $("#t_asr")      .text('Azan: '+pray_times['asr']);
-      $("#t_maghrib")  .text('Azan: '+pray_times['maghrib']);
-      $("#t_isha")     .text('Azan: '+pray_times['isha']);
+      $("#fajr_a")     .text('Azan: '+prayer_times['fajr_a']);
+      $("#t_sunrise")  .text(calculated_times['sunrise']);
+      $("#dhuhr_a")    .text('Azan: '+prayer_times['dhuhr_a']);
+      $("#asr_a")      .text('Azan: '+prayer_times['asr_a']);
+      $("#maghrib_a")  .text('Azan: '+prayer_times['maghrib_a']);
+      $("#isha_a")     .text('Azan: '+prayer_times['isha_a']);
 
-      $("#i_fajr")     .text('Iqama: '+iqama_times['fajr']);
-      $("#i_dhuhr")    .text('Iqama: '+iqama_times['dhuhr']);
-      $("#i_asr")      .text('Iqama: '+iqama_times['asr']);
-      $("#i_isha")     .text('Iqama: '+iqama_times['isha']);
+      $("#fajr_i")     .text('Iqama: '+prayer_times['fajr_i']);
+      $("#dhuhr_i")    .text('Iqama: '+prayer_times['dhuhr_i']);
+      $("#asr_i")      .text('Iqama: '+prayer_times['asr_i']);
+      $("#maghrib_i")      .text('Iqama: '+prayer_times['maghrib_i']);
+      $("#isha_i")     .text('Iqama: '+prayer_times['isha_i']);
 
-      $("#i_maghrib")  .text('Iqama: '+m_i_time);
+      // $("#maghrib_i")  .text('Iqama: '+m_i_time);
 
-      new Clock(document.getElementById("canvas_fajr"), iqama_times['fajr'].split(":")[0], iqama_times['fajr'].split(":")[1].split(" ")[0]);
-      new Clock(document.getElementById("canvas_sunrise"), pray_times['sunrise'].split(":")[0], pray_times['sunrise'].split(":")[1].split(" ")[0]);
-      new Clock(document.getElementById("canvas_dhuhr"), iqama_times['dhuhr'].split(":")[0], iqama_times['dhuhr'].split(":")[1].split(" ")[0]);
-      new Clock(document.getElementById("canvas_asr"), iqama_times['asr'].split(":")[0], iqama_times['asr'].split(":")[1].split(" ")[0]);
-      new Clock(document.getElementById("canvas_maghrib"), m_i_time.split(":")[0], m_i_time.split(":")[1].split(" ")[0]);
-      new Clock(document.getElementById("canvas_isha"), iqama_times['isha'].split(":")[0], iqama_times['isha'].split(":")[1].split(" ")[0]);
-
+      renderPrayerTimeClocks();
     });
+  }
+
+  function getPrayerTimesFromConfig() {
+    helpers.asyncPrayerTimesFromConfig().success(function(prayerTimes) {
+      calculated_times  = prayTimes.getTimes(new Date(), [location.lat, location.lng], tz_offset, 'auto', '12h');
+      prayer_times = helpers.getPrayerTimesRange(prayerTimes);
+      if (!prayer_times) {
+        throw new Error('Range not found')
+      }
+      m_p_time    = helpers.makeMoment(calculated_times['maghrib']);
+      m_i_time    = m_p_time.add(maghrib_buffer, 'm').format("h:mm a");
+      n_pray_info = helpers.nextPrayerInfo(calculated_times, prayer_times, m_i_time);
+
+      $("#fajr_a")     .text('Azan: '+prayer_times['fajr_a']);
+      $("#t_sunrise")  .text(calculated_times['sunrise']);
+      $("#dhuhr_a")    .text('Azan: '+prayer_times['dhuhr_a']);
+      $("#asr_a")      .text('Azan: '+prayer_times['asr_a']);
+      $("#maghrib_a")  .text('Azan: '+calculated_times['sunset']);
+      $("#isha_a")     .text('Azan: '+prayer_times['isha_a']);
+
+      $("#fajr_i")     .text('Iqama: '+prayer_times['fajr_i']);
+      $("#dhuhr_i")    .text('Iqama: '+prayer_times['dhuhr_i']);
+      $("#asr_i")      .text('Iqama: '+prayer_times['asr_i']);
+      $("#maghrib_i")      .text('Iqama: '+prayer_times['maghrib_i']);
+      $("#isha_i")     .text('Iqama: '+prayer_times['isha_i']);
+
+      // $("#maghrib_i")  .text('Iqama: '+m_i_time);
+
+      renderPrayerTimeClocks();
+    });
+  }
+
+  function renderPrayerTimeClocks() {
+    new Clock(document.getElementById("canvas_fajr"), prayer_times['fajr_i'].split(":")[0], prayer_times['fajr_i'].split(":")[1].split(" ")[0]);
+    new Clock(document.getElementById("canvas_sunrise"), calculated_times['sunrise'].split(":")[0], calculated_times['sunrise'].split(":")[1].split(" ")[0]);
+    new Clock(document.getElementById("canvas_dhuhr"), prayer_times['dhuhr_i'].split(":")[0], prayer_times['dhuhr_i'].split(":")[1].split(" ")[0]);
+    new Clock(document.getElementById("canvas_asr"), prayer_times['asr_i'].split(":")[0], prayer_times['asr_i'].split(":")[1].split(" ")[0]);
+    new Clock(document.getElementById("canvas_maghrib"), prayer_times['maghrib_i'].split(":")[0], prayer_times['maghrib_i'].split(":")[1].split(" ")[0]);
+    // new Clock(document.getElementById("canvas_maghrib"), m_i_time.split(":")[0], m_i_time.split(":")[1].split(" ")[0]);
+    new Clock(document.getElementById("canvas_isha"), prayer_times['isha_i'].split(":")[0], prayer_times['isha_i'].split(":")[1].split(" ")[0]);
 
   }
 

@@ -1,12 +1,11 @@
-
 var helpers = (function() {
-  var _helpers = {};
+  let _helpers = {};
 
   // Determine if a date is between a start and end
   // date --> expects format of 'MM/DD'
   // range -> expects format of 'MM/DD-MM/DD'
   _helpers.isBetween = function(date, range) {
-    var month_num = range.split("-")[0].split("/")[0],
+    let month_num = range.split("-")[0].split("/")[0],
         final_day = range.split("-")[1].split("/")[1];
 
     return date.split("/")[0] == month_num && date.split("/")[1] <= final_day;
@@ -23,18 +22,18 @@ var helpers = (function() {
   // iqama_times -> hash of iqama times for today
   // pray_times --> hash of prayer times for today
   // m_i_time ----> Maghrib's iqama time (since it depends on athan time)
-  _helpers.nextPrayerInfo = function(iqama_times, pray_times, m_i_time) {
+  _helpers.nextPrayerInfo = function(prayer_times, pray_times, m_i_time) {
     let now = moment(),
         info = {};
 
-    iqama_times['maghrib'] = m_i_time.split(" ")[0];
+    prayer_times['maghrib'] = m_i_time.split(" ")[0];
 
-    for(let prayer in iqama_times) {
-      prayer == 'fajr' ? iqama_times[prayer] += " am" : iqama_times[prayer] += " pm";
-    }
+    // for(let prayer in prayer_times) {
+    //   prayer == 'fajr' ? prayer_times[prayer] += " am" : prayer_times[prayer] += " pm";
+    // }
 
-    for(let prayer in iqama_times) {
-      let iqama_moment = this.makeMoment(iqama_times[prayer]),
+    for(let prayer in prayer_times) {
+      let iqama_moment = this.makeMoment(prayer_times[prayer]),
           pray_moment  = this.makeMoment(pray_times[prayer]);
 
       if (now.diff(iqama_moment) < 0) {
@@ -49,7 +48,7 @@ var helpers = (function() {
     if(!info['prayer']) {
       info['prayer'] = 'Fajr';
       info['arabic'] = this.toArabic('fajr');
-      info['iqama']  = now.to(this.makeMoment(iqama_times['fajr']).add(1, 'd'));
+      info['iqama']  = now.to(this.makeMoment(prayer_times['fajr']).add(1, 'd'));
       info['athan']  = now.to(this.makeMoment(pray_times['fajr']).add(1, 'd'));
     }
 
@@ -72,6 +71,22 @@ var helpers = (function() {
     return data['iqamas'][range];
   };
 
+  // Finds the correct iqama date range based on today's date
+  // data --> JSON file with all iqama date ranges
+  _helpers.getPrayerTimesRange = function(data) {
+    let today = moment().format("MM/DD"),
+        key = "";
+
+    for(var range in data['prayer_times']) {
+      if (helpers.isBetween(today, range)) {
+        key = range;
+        break;
+      }
+    }
+
+    return data['prayer_times'][range];
+  };
+
   // Async fetches the iqamas JSON file
   _helpers.asyncIqamas = function() {
     return $.ajax({
@@ -79,33 +94,6 @@ var helpers = (function() {
       dataType: "json"
     });
   };
-
-  // Async fetches the prayer times from config URL
-  _helpers.asyncIqamasFromUrl = function() {
-    this.asyncConfig().success(function (config) {
-      var today = new Date()
-      var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      var url = config.iqama_url.replace("{mm}",mm).replace("{dd}",dd);
-      getDataFromUrl(url, function (data) {
-        console.log(data);
-      });
-
-      $.ajax({
-        url: 'data/iqamas.json',
-        dataType: "json"
-      });
-
-    })
-    return $.ajax({
-      url: 'data/iqamas.json',
-      dataType: "json"
-    });
-  };
-
-  function getDataFromUrl(url, param2) {
-
-  }
 
   // Async call to fetch filenames from announcments folder
   _helpers.asyncAnnouncements = function() {
@@ -115,10 +103,11 @@ var helpers = (function() {
   }
 
   // Async call to fetch config details
-  _helpers.asyncConfig = function() {
+  _helpers.config = function () {
    return $.ajax({
-      url: "config-detail"
-    });
+      url: "config-detail",
+     async: false
+   });
   }
 
   // Async call to fetch iqama times
@@ -128,10 +117,35 @@ var helpers = (function() {
     });
   }
 
+  // Async call to fetch iqama times
+  _helpers.asyncPrayerTimesFromConfig = function() {
+    return $.ajax({
+      url: "prayerTimesFromConfig"
+    });
+  }
+
+  // Async call to fetch iqama times
+  _helpers.asyncPrayerTimesFromUrl = function() {
+    return $.ajax({
+      url: "prayerTimesFromUrl"
+    });
+  }
+
   // Async call to update iqama ranges
   _helpers.asyncUpdateIqamas = function(data) {
     return $.ajax({
       url:'/iqama-update',
+      type:"POST",
+      data:JSON.stringify(data),
+      contentType:"application/json; charset=utf-8",
+      dataType:"json"
+    });
+  }
+
+  // Async call to update iqama ranges
+  _helpers.asyncUpdatePrayerTimes = function(data) {
+    return $.ajax({
+      url:'/prayer-times-update',
       type:"POST",
       data:JSON.stringify(data),
       contentType:"application/json; charset=utf-8",
@@ -180,6 +194,36 @@ var helpers = (function() {
             '</button>' +
           '</div>' +
         '</td>' +
+      '</tr>');
+  }
+
+  // Return a HTML object that represents one row of a prayer time range
+  _helpers.prayer_times_row = function(start, end, times) {
+    return $('' +
+      '<tr id="' + [start, end].join('-') + '">' +
+      '<td>' + start + '</td>' +
+      '<td>' + end   + '</td>' +
+      '<td>' + times['fajr_a'] + '</td>' +
+      '<td>' + times['fajr_i'] + '</td>' +
+      '<td>' + times['dhuhr_a'] + '</td>' +
+      '<td>' + times['dhuhr_i'] + '</td>' +
+      '<td>' + times['asr_a'] + '</td>' +
+      '<td>' + times['asr_i'] + '</td>' +
+      '<td>' + times['maghrib_a'] + '</td>' +
+      '<td>' + times['maghrib_i'] + '</td>' +
+      '<td>' + times['isha_a'] + '</td>' +
+      '<td>' + times['isha_i'] + '</td>' +
+      '<td>' + times['jumma1_a'] + '</td>' +
+      '<td>' + times['jumma1_i'] + '</td>' +
+      '<td>' + times['jumma2_a'] + '</td>' +
+      '<td>' + times['jumma2_i'] + '</td>' +
+      '<td>' +
+      '<div class="btn-group" role="group">' +
+      '<button type="button" class="btn btn-default">' +
+      '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>' +
+      '</button>' +
+      '</div>' +
+      '</td>' +
       '</tr>');
   }
 

@@ -220,3 +220,7 @@ canvas {
   line-height: 0;
   height: 19.5vh;
 }
+
+.has-error {
+  border-color:#a94442;
+}
